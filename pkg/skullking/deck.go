@@ -26,6 +26,8 @@ type CardValue int
 type CardType string
 
 const (
+	CardTypeNone CardType = ""
+
 	CardTypeSkullKing CardType = "SkullKing"
 	CardTypeMermaid   CardType = "Mermaid"
 	CardTypePirate    CardType = "Pirate"
