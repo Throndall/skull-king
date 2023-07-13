@@ -37,6 +37,8 @@ func (t *Trick) Play(p Play) error {
 
 // Winner will return the player that wins the current Trick
 func (t *Trick) Winner() *Player {
+
+	//t.Table[0].
 	return nil
 }
 
@@ -46,5 +48,11 @@ func (t *Trick) Points() int {
 }
 
 func (t *Trick) Leading() CardType {
-	panic("Not Implemented Yet")
+	if t.Table[0].Card.Type != CardTypeSuitGreen &&
+		t.Table[0].Card.Type != CardTypeSuitBlack &&
+		t.Table[0].Card.Type != CardTypeSuitYellow &&
+		t.Table[0].Card.Type != CardTypeSuitPurple {
+		return CardTypeNone
+	}
+	return t.Table[0].Card.Type
 }

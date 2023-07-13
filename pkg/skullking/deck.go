@@ -35,9 +35,13 @@ const (
 	CardTypeTigress   CardType = "Tigress"
 
 	CardTypeSuitParrot        CardType = "Parrot"
+	CardTypeSuitGreen         CardType = "green"
 	CardTypeSuitTreasureChest CardType = "Treasure Chest"
-	CardTypeSuitJollyRoger    CardType = "Jolly Roger"
+	CardTypeSuitYellow        CardType = "yellow"
 	CardTypeSuitPirateMap     CardType = "Pirate Map"
+	CardTypeSuitPurple        CardType = "purple"
+	CardTypeSuitJollyRoger    CardType = "Jolly Roger"
+	CardTypeSuitBlack         CardType = "black"
 )
 
 var (
