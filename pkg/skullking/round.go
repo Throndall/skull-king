@@ -48,11 +48,21 @@ func (t *Trick) Points() int {
 }
 
 func (t *Trick) Leading() CardType {
-	if t.Table[0].Card.Type != CardTypeSuitGreen &&
-		t.Table[0].Card.Type != CardTypeSuitBlack &&
-		t.Table[0].Card.Type != CardTypeSuitYellow &&
-		t.Table[0].Card.Type != CardTypeSuitPurple {
+	
+	position:=0
+	for i := position; i < len(t.Table); i++ {
+		if t.Table[i].Card.Type != CardTypeEscape{
+			position=i
+			break
+		}
+	}
+	
+	if t.Table[position].Card.Type != CardTypeSuitGreen &&
+		t.Table[position].Card.Type != CardTypeSuitBlack &&
+		t.Table[position].Card.Type != CardTypeSuitYellow &&
+		t.Table[position].Card.Type != CardTypeSuitPurple {
 		return CardTypeNone
 	}
-	return t.Table[0].Card.Type
+	
+	return t.Table[position].Card.Type
 }

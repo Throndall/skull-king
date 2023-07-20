@@ -40,7 +40,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[0], Card: Card{Type: CardTypeSuitYellow, Value: 1}},
 					{Player: players[1], Card: Card{Type: CardTypeSuitYellow, Value: 2}},
 					{Player: players[2], Card: Card{Type: CardTypeSuitYellow, Value: 3}},
-					{Player: players[3], Card: Card{Type: CardTypeSuitParrot, Value: 14}},
+					{Player: players[3], Card: Card{Type: CardTypeSuitGreen, Value: 14}},
 				},
 			},
 			Want: players[2],
@@ -81,9 +81,9 @@ func TestLeading(t *testing.T) {
 			name: "single suit",
 			trick: Trick{
 				Table: []*Play{
-					{Card: Card{Type: CardTypeSuitGreen, Value: 2}},
-					{Card: Card{Type: CardTypeSuitGreen, Value: 6}},
-					{Card: Card{Type: CardTypeSuitGreen, Value: 7}},
+					{Card: Card{Type: CardTypeSuitGreen}},
+					{Card: Card{Type: CardTypeSuitGreen}},
+					{Card: Card{Type: CardTypeSuitGreen}},
 				},
 			},
 			want: CardTypeSuitGreen,
@@ -107,6 +107,61 @@ func TestLeading(t *testing.T) {
 					{Card: Card{Type: CardTypePirate}},
 					{Card: Card{Type: CardTypeSuitYellow}},
 					{Card: Card{Type: CardTypeSuitBlack}},
+				},
+			},
+			want: CardTypeNone,
+		},
+		{
+			name: "Escape",
+			trick: Trick{
+				Table: []*Play{
+					{Card: Card{Type: CardTypeEscape}},
+					{Card: Card{Type: CardTypeSuitYellow}},
+					{Card: Card{Type: CardTypeSuitBlack}},
+				},
+			},
+			want: CardTypeSuitYellow,
+		},
+		{
+			name: "Escape two times",
+			trick: Trick{
+				Table: []*Play{
+					{Card: Card{Type: CardTypeEscape}},
+					{Card: Card{Type: CardTypeEscape}},
+					{Card: Card{Type: CardTypeSuitBlack}},
+				},
+			},
+			want: CardTypeSuitBlack,
+		},
+		{
+			name: "Escape three times",
+			trick: Trick{
+				Table: []*Play{
+					{Card: Card{Type: CardTypeEscape}},
+					{Card: Card{Type: CardTypeEscape}},
+					{Card: Card{Type: CardTypeEscape}},
+				},
+			},
+			want: CardTypeNone,
+		},
+		{
+			name: "Escape pirate suit",
+			trick: Trick{
+				Table: []*Play{
+					{Card: Card{Type: CardTypeEscape}},
+					{Card: Card{Type: CardTypePirate}},
+					{Card: Card{Type: CardTypeSuitGreen}},
+				},
+			},
+			want: CardTypeNone,
+		},
+		{
+			name: "Mermaid pirate suit",
+			trick: Trick{
+				Table: []*Play{
+					{Card: Card{Type: CardTypeMermaid}},
+					{Card: Card{Type: CardTypePirate}},
+					{Card: Card{Type: CardTypeSuitGreen}},
 				},
 			},
 			want: CardTypeNone,
