@@ -37,9 +37,27 @@ func (t *Trick) Play(p Play) error {
 
 // Winner will return the player that wins the current Trick
 func (t *Trick) Winner() *Player {
+	t.Leading()
 
 	//t.Table[0].
-	return nil
+	actualWinner := t.Table[0]
+	for i := 1; i < len(t.Table); i++ {
+		//t.leading
+		if t.Table[i].Card.Type != actualWinner.Card.Type && t.Table[i].Card.Type != CardTypeSuitBlack {
+			continue
+		}
+
+		if t.Table[i].Card.Type == CardTypeSuitBlack && actualWinner.Card.Type != CardTypeSuitBlack {
+			actualWinner = t.Table[i]
+			continue
+		}
+
+		if t.Table[i].Card.Value > actualWinner.Card.Value {
+			actualWinner = t.Table[i]
+			continue
+		}
+	}
+	return actualWinner.Player
 }
 
 // Points returns the amount of points that this specific trick is worth for the player that wins it.
@@ -48,21 +66,21 @@ func (t *Trick) Points() int {
 }
 
 func (t *Trick) Leading() CardType {
-	
-	position:=0
+
+	position := 0
 	for i := position; i < len(t.Table); i++ {
-		if t.Table[i].Card.Type != CardTypeEscape{
-			position=i
+		if t.Table[i].Card.Type != CardTypeEscape {
+			position = i
 			break
 		}
 	}
-	
+
 	if t.Table[position].Card.Type != CardTypeSuitGreen &&
 		t.Table[position].Card.Type != CardTypeSuitBlack &&
 		t.Table[position].Card.Type != CardTypeSuitYellow &&
 		t.Table[position].Card.Type != CardTypeSuitPurple {
 		return CardTypeNone
 	}
-	
+
 	return t.Table[position].Card.Type
 }
