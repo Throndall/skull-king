@@ -40,6 +40,24 @@ func (t *Trick) Winner() *Player {
 
 	actualWinner := t.Table[0]
 	for i := 1; i < len(t.Table); i++ {
+
+		if actualWinner.Card.Type == CardTypeSkullKing {
+			if t.Table[i].Card.Type == CardTypeMermaid {
+				actualWinner = t.Table[i]
+				break
+			}
+			continue
+		}
+		if actualWinner.Card.Type == CardTypeMermaid {
+			if t.Table[i].Card.Type == CardTypeSkullKing {
+				break
+			}
+			continue
+		}
+		if t.Table[i].Card.Type == CardTypeSkullKing {
+			actualWinner = t.Table[i]
+			continue
+		}
 		if t.Table[i].Card.Type == CardTypeEscape {
 			continue
 		}
