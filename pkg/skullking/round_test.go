@@ -57,6 +57,66 @@ func TestTrick_Winner(t *testing.T) {
 			},
 			Want: players[3],
 		},
+		{
+			Name: "Highest triumph wins",
+			Trick: Trick{
+				Table: []*Play{
+					{Player: players[0], Card: Card{Type: CardTypeSuitBlack, Value: 1}},
+					{Player: players[1], Card: Card{Type: CardTypeSuitBlack, Value: 12}},
+					{Player: players[2], Card: Card{Type: CardTypeSuitYellow, Value: 13}},
+					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 10}},
+				},
+			},
+			Want: players[1],
+		},
+		{
+			Name: "Pirate wins",
+			Trick: Trick{
+				Table: []*Play{
+					{Player: players[0], Card: Card{Type: CardTypeSuitYellow, Value: 1}},
+					{Player: players[1], Card: Card{Type: CardTypeSuitYellow, Value: 12}},
+					{Player: players[2], Card: Card{Type: CardTypePirate}},
+					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 10}},
+				},
+			},
+			Want: players[2],
+		},
+		{
+			Name: "Second pirate looses",
+			Trick: Trick{
+				Table: []*Play{
+					{Player: players[0], Card: Card{Type: CardTypeSuitYellow, Value: 1}},
+					{Player: players[1], Card: Card{Type: CardTypePirate}},
+					{Player: players[2], Card: Card{Type: CardTypePirate}},
+					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 10}},
+				},
+			},
+			Want: players[1],
+		},
+		{
+			Name: "Escape looses",
+			Trick: Trick{
+				Table: []*Play{
+					{Player: players[0], Card: Card{Type: CardTypeEscape}},
+					{Player: players[1], Card: Card{Type: CardTypeSuitYellow, Value: 2}},
+					{Player: players[2], Card: Card{Type: CardTypeSuitYellow, Value: 3}},
+					{Player: players[3], Card: Card{Type: CardTypeSuitGreen, Value: 14}},
+				},
+			},
+			Want: players[2],
+		},
+		{
+			Name: "Escape everywhere",
+			Trick: Trick{
+				Table: []*Play{
+					{Player: players[0], Card: Card{Type: CardTypeEscape}},
+					{Player: players[1], Card: Card{Type: CardTypeEscape}},
+					{Player: players[2], Card: Card{Type: CardTypeEscape}},
+					{Player: players[3], Card: Card{Type: CardTypeEscape}},
+				},
+			},
+			Want: players[0],
+		},
 	}
 	for _, tt := range table {
 		t.Run(tt.Name, func(t *testing.T) {

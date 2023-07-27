@@ -37,12 +37,27 @@ func (t *Trick) Play(p Play) error {
 
 // Winner will return the player that wins the current Trick
 func (t *Trick) Winner() *Player {
-	t.Leading()
 
-	//t.Table[0].
 	actualWinner := t.Table[0]
 	for i := 1; i < len(t.Table); i++ {
-		//t.leading
+		if t.Table[i].Card.Type == CardTypeEscape {
+			continue
+		}
+
+		if actualWinner.Card.Type == CardTypeEscape {
+			actualWinner = t.Table[i]
+			continue
+		}
+
+		if actualWinner.Card.Type == CardTypePirate {
+			continue
+		}
+
+		if t.Table[i].Card.Type == CardTypePirate {
+			actualWinner = t.Table[i]
+			continue
+		}
+
 		if t.Table[i].Card.Type != actualWinner.Card.Type && t.Table[i].Card.Type != CardTypeSuitBlack {
 			continue
 		}
