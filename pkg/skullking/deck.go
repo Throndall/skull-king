@@ -15,6 +15,13 @@ type Card struct {
 	Value int
 }
 
+func (c Card) IsFigure() bool {
+	if c.Type == CardTypeMermaid || c.Type == CardTypeSkullKing || c.Type == CardTypePirate {
+		return true
+	}
+	return false
+}
+
 // que es un mazo un frenesi una sombra una ilusion
 
 // cartas para todos de typo carta

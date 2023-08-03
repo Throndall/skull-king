@@ -35,62 +35,167 @@ func (t *Trick) Play(p Play) error {
 	panic("Not Implemented Yet")
 }
 
-// Winner will return the player that wins the current Trick
-func (t *Trick) Winner() *Player {
-
-	actualWinner := t.Table[0]
-	for i := 1; i < len(t.Table); i++ {
-
-		if actualWinner.Card.Type == CardTypeSkullKing {
-			if t.Table[i].Card.Type == CardTypeMermaid {
-				actualWinner = t.Table[i]
-				break
-			}
-			continue
-		}
-		if actualWinner.Card.Type == CardTypeMermaid {
-			if t.Table[i].Card.Type == CardTypeSkullKing {
-				break
-			}
-			continue
-		}
-		if t.Table[i].Card.Type == CardTypeSkullKing {
-			actualWinner = t.Table[i]
-			continue
-		}
-		if t.Table[i].Card.Type == CardTypeEscape {
-			continue
-		}
-
-		if actualWinner.Card.Type == CardTypeEscape {
-			actualWinner = t.Table[i]
-			continue
-		}
-
-		if actualWinner.Card.Type == CardTypePirate {
-			continue
-		}
-
-		if t.Table[i].Card.Type == CardTypePirate {
-			actualWinner = t.Table[i]
-			continue
-		}
-
-		if t.Table[i].Card.Type != actualWinner.Card.Type && t.Table[i].Card.Type != CardTypeSuitBlack {
-			continue
-		}
-
-		if t.Table[i].Card.Type == CardTypeSuitBlack && actualWinner.Card.Type != CardTypeSuitBlack {
-			actualWinner = t.Table[i]
-			continue
-		}
-
-		if t.Table[i].Card.Value > actualWinner.Card.Value {
-			actualWinner = t.Table[i]
-			continue
+func (t *Trick) ContainsFigure() bool {
+	for i := 0; i < len(t.Table); i++ {
+		if t.Table[i].Card.IsFigure() {
+			return true
 		}
 	}
-	return actualWinner.Player
+	return false
+}
+
+func (t *Trick) ContainsSkullKing() bool {
+	for i := 0; i < len(t.Table); i++ {
+		if t.Table[i].Card.Type == CardTypeSkullKing {
+			return true
+		}
+	}
+	return false
+}
+
+func (t *Trick) ContainsMermaid() bool {
+	for i := 0; i < len(t.Table); i++ {
+		if t.Table[i].Card.Type == CardTypeMermaid {
+			return true
+		}
+	}
+	return false
+}
+
+func (t *Trick) ContainsPirate() bool {
+	for i := 0; i < len(t.Table); i++ {
+		if t.Table[i].Card.Type == CardTypePirate {
+			return true
+		}
+	}
+	return false
+}
+
+func (t *Trick) ContainsBlack() bool {
+	for i := 0; i < len(t.Table); i++ {
+		if t.Table[i].Card.Type == CardTypeSuitBlack {
+			return true
+		}
+	}
+	return false
+}
+
+func (t *Trick) ContainsAllEscape() bool {
+	for i := 0; i < len(t.Table); i++ {
+		if t.Table[i].Card.Type != CardTypeEscape {
+			return false
+		}
+	}
+	return true
+}
+
+func (t *Trick) NumberFigure() int {
+	count := 0
+	for i := 0; i < len(t.Table); i++ {
+		if t.Table[i].Card.IsFigure() {
+			count++
+		}
+
+	}
+	return count
+}
+
+func (t *Trick) FindMermaid() *Player {
+	for i := 0; i < len(t.Table); i++ {
+		if t.Table[i].Card.Type == CardTypeMermaid {
+			return t.Table[i].Player
+		}
+	}
+	//panic("la sirena no ha sido encontrada")
+	return nil
+}
+
+func (t *Trick) FindPirate() *Player {
+	for i := 0; i < len(t.Table); i++ {
+		if t.Table[i].Card.Type == CardTypePirate {
+			return t.Table[i].Player
+		}
+	}
+	//panic("la sirena no ha sido encontrada")
+	return nil
+}
+
+func (t *Trick) FindSkullKing() *Player {
+	for i := 0; i < len(t.Table); i++ {
+		if t.Table[i].Card.Type == CardTypeSkullKing {
+			return t.Table[i].Player
+		}
+	}
+	//panic("la sirena no ha sido encontrada")
+	return nil
+}
+
+func (t *Trick) FindHigestBlack() *Player {
+	higest := &Play{}
+	for i := 0; i < len(t.Table); i++ {
+		if t.Table[i].Card.Type != CardTypeSuitBlack {
+			continue
+		}
+		if t.Table[i].Card.Value > higest.Card.Value {
+			higest = t.Table[i]
+		}
+	}
+	return higest.Player
+
+}
+
+func (t *Trick) FindHigestLeading() *Player {
+	higest := &Play{}
+
+	for i := 0; i < len(t.Table); i++ {
+		if t.Table[i].Card.Type != t.Leading() {
+			continue
+		}
+		if t.Table[i].Card.Value > higest.Card.Value {
+			higest = t.Table[i]
+		}
+
+	}
+	return higest.Player
+
+}
+
+func (t *Trick) FindFigure() *Player {
+	for i := 0; i < len(t.Table); i++ {
+		if t.Table[i].Card.IsFigure() {
+			return t.Table[i].Player
+		}
+	}
+	//panic("No hemos encontrado la figura")
+	return nil
+}
+
+// Winner will return the player that wins the current Trick
+func (t *Trick) Winner() *Player {
+	if t.ContainsFigure() {
+		if t.NumberFigure() == 3 {
+			return t.FindMermaid()
+		}
+		if t.NumberFigure() == 1 {
+			return t.FindFigure()
+		}
+		if t.NumberFigure() == 2 {
+			if t.ContainsSkullKing() && !t.ContainsMermaid() {
+				return t.FindSkullKing()
+			}
+			if t.ContainsSkullKing() && t.ContainsMermaid() {
+				return t.FindMermaid()
+			}
+			return t.FindPirate()
+		}
+	}
+	if t.ContainsBlack() {
+		return t.FindHigestBlack()
+	}
+	if t.ContainsAllEscape() {
+		return t.Table[0].Player
+	}
+	return t.FindHigestLeading()
 }
 
 // Points returns the amount of points that this specific trick is worth for the player that wins it.

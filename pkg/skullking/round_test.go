@@ -201,6 +201,18 @@ func TestTrick_Winner(t *testing.T) {
 			},
 			Want: players[0],
 		},
+		{
+			Name: "pirate win mermaid",
+			Trick: Trick{
+				Table: []*Play{
+					{Player: players[0], Card: Card{Type: CardTypeMermaid}},
+					{Player: players[1], Card: Card{Type: CardTypeSuitYellow, Value: 2}},
+					{Player: players[2], Card: Card{Type: CardTypePirate}},
+					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 14}},
+				},
+			},
+			Want: players[2],
+		},
 	}
 	for _, tt := range table {
 		t.Run(tt.Name, func(t *testing.T) {
