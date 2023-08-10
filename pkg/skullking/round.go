@@ -170,16 +170,31 @@ func (t *Trick) FindFigure() *Player {
 	return nil
 }
 
+func (t *Trick) FindDiferentFigures() int {
+	if t.ContainsSkullKing() && t.ContainsMermaid() && t.ContainsPirate() {
+		return 3
+	}
+
+	if (t.ContainsSkullKing() && t.ContainsMermaid()) || (t.ContainsSkullKing() && t.ContainsPirate()) || (t.ContainsMermaid() && t.ContainsPirate()) {
+		return 2
+	}
+
+	if t.ContainsSkullKing() || t.ContainsMermaid() || t.ContainsPirate() {
+		return 1
+	}
+	return 0
+}
+
 // Winner will return the player that wins the current Trick
 func (t *Trick) Winner() *Player {
-	if t.ContainsFigure() {
-		if t.NumberFigure() == 3 {
+	if t.FindDiferentFigures() > 0 {
+		if t.FindDiferentFigures() == 3 {
 			return t.FindMermaid()
 		}
-		if t.NumberFigure() == 1 {
+		if t.FindDiferentFigures() == 1 {
 			return t.FindFigure()
 		}
-		if t.NumberFigure() == 2 {
+		if t.FindDiferentFigures() == 2 {
 			if t.ContainsSkullKing() && !t.ContainsMermaid() {
 				return t.FindSkullKing()
 			}
