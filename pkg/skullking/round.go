@@ -214,8 +214,43 @@ func (t *Trick) Winner() *Player {
 }
 
 // Points returns the amount of points that this specific trick is worth for the player that wins it.
-func (t *Trick) Points() int {
-	return 0
+func (t *Trick) Bonus() int {
+	Points := 0
+	if t.FindDiferentFigures() > 0 {
+		if t.FindDiferentFigures() == 3 {
+			Points += 40
+		}
+		if t.FindDiferentFigures() == 2 {
+			if t.ContainsPirate() && t.ContainsMermaid() {
+				for i := 0; i < len(t.Table); i++ {
+					if t.Table[i].Card.Type == CardTypeMermaid {
+						Points += 20
+					}
+				}
+			}
+			if t.ContainsSkullKing() && t.ContainsPirate() {
+				for i := 0; i < len(t.Table); i++ {
+					if t.Table[i].Card.Type == CardTypePirate {
+						Points += 30
+					}
+				}
+			}
+			if t.ContainsSkullKing() && t.ContainsMermaid() {
+				Points += 40
+			}
+		}
+	}
+	for i := 0; i < len(t.Table); i++ {
+		if t.Table[i].Card.Value == 14 {
+			if t.Table[i].Card.Type == CardTypeSuitBlack {
+				Points += 20
+			} else {
+				Points += 10
+			}
+		}
+	}
+
+	return Points
 }
 
 func (t *Trick) Leading() CardType {

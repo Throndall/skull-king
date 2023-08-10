@@ -366,3 +366,164 @@ func TestLeading(t *testing.T) {
 		})
 	}
 }
+
+type TableTestBonus struct {
+	Name  string
+	Trick Trick
+
+	Want int
+}
+
+func TestTrick_Bonus_Points(t *testing.T) {
+
+	table := []TableTestBonus{
+		{
+			Name: "low numbers",
+			Trick: Trick{
+				Table: []*Play{
+					{Card: Card{Type: CardTypeSuitYellow, Value: 1}},
+					{Card: Card{Type: CardTypeSuitYellow, Value: 2}},
+					{Card: Card{Type: CardTypeSuitYellow, Value: 3}},
+					{Card: Card{Type: CardTypeSuitYellow, Value: 4}},
+				},
+			},
+			Want: 0,
+		},
+		{
+			Name: "max numbers",
+			Trick: Trick{
+				Table: []*Play{
+					{Card: Card{Type: CardTypeSuitYellow, Value: 14}},
+					{Card: Card{Type: CardTypeSuitYellow, Value: 13}},
+					{Card: Card{Type: CardTypeSuitGreen, Value: 14}},
+					{Card: Card{Type: CardTypeSuitYellow, Value: 4}},
+				},
+			},
+			Want: 20,
+		},
+		{
+			Name: "with low Back",
+			Trick: Trick{
+				Table: []*Play{
+					{Card: Card{Type: CardTypeSuitYellow, Value: 14}},
+					{Card: Card{Type: CardTypeSuitYellow, Value: 13}},
+					{Card: Card{Type: CardTypeSuitGreen, Value: 14}},
+					{Card: Card{Type: CardTypeSuitBlack, Value: 4}},
+				},
+			},
+			Want: 20,
+		},
+		{
+			Name: "with max Black",
+			Trick: Trick{
+				Table: []*Play{
+					{Card: Card{Type: CardTypeSuitYellow, Value: 14}},
+					{Card: Card{Type: CardTypeSuitYellow, Value: 13}},
+					{Card: Card{Type: CardTypeSuitGreen, Value: 14}},
+					{Card: Card{Type: CardTypeSuitBlack, Value: 14}},
+				},
+			},
+			Want: 40,
+		},
+		{
+			Name: "only one pirate",
+			Trick: Trick{
+				Table: []*Play{
+					{Card: Card{Type: CardTypeSuitYellow, Value: 14}},
+					{Card: Card{Type: CardTypeSuitYellow, Value: 13}},
+					{Card: Card{Type: CardTypeSuitGreen, Value: 14}},
+					{Card: Card{Type: CardTypeSuitBlack, Value: 14}},
+					{Card: Card{Type: CardTypePirate}},
+				},
+			},
+			Want: 40,
+		},
+		{
+			Name: "one pirate and one mermaid",
+			Trick: Trick{
+				Table: []*Play{
+					{Card: Card{Type: CardTypeMermaid}},
+					{Card: Card{Type: CardTypeSuitYellow, Value: 13}},
+					{Card: Card{Type: CardTypeSuitGreen, Value: 14}},
+					{Card: Card{Type: CardTypeSuitBlack, Value: 14}},
+					{Card: Card{Type: CardTypePirate}},
+				},
+			},
+			Want: 50,
+		},
+		{
+			Name: "one pirate and two mermaids",
+			Trick: Trick{
+				Table: []*Play{
+					{Card: Card{Type: CardTypeMermaid}},
+					{Card: Card{Type: CardTypeSuitYellow, Value: 13}},
+					{Card: Card{Type: CardTypeSuitGreen, Value: 14}},
+					{Card: Card{Type: CardTypeMermaid}},
+					{Card: Card{Type: CardTypePirate}},
+				},
+			},
+			Want: 50,
+		},
+		{
+			Name: "one pirate and skullking",
+			Trick: Trick{
+				Table: []*Play{
+					{Card: Card{Type: CardTypeSkullKing}},
+					{Card: Card{Type: CardTypeSuitYellow, Value: 13}},
+					{Card: Card{Type: CardTypeSuitGreen, Value: 14}},
+					{Card: Card{Type: CardTypeSuitBlack, Value: 14}},
+					{Card: Card{Type: CardTypePirate}},
+				},
+			},
+			Want: 60,
+		},
+		{
+			Name: "two pirates and skullking",
+			Trick: Trick{
+				Table: []*Play{
+					{Card: Card{Type: CardTypeSkullKing}},
+					{Card: Card{Type: CardTypeSuitYellow, Value: 13}},
+					{Card: Card{Type: CardTypeSuitGreen, Value: 14}},
+					{Card: Card{Type: CardTypePirate}},
+					{Card: Card{Type: CardTypePirate}},
+				},
+			},
+			Want: 70,
+		},
+		{
+			Name: "one mermaid and skullking",
+			Trick: Trick{
+				Table: []*Play{
+					{Card: Card{Type: CardTypeSkullKing}},
+					{Card: Card{Type: CardTypeSuitYellow, Value: 13}},
+					{Card: Card{Type: CardTypeSuitGreen, Value: 14}},
+					{Card: Card{Type: CardTypeSuitBlack, Value: 14}},
+					{Card: Card{Type: CardTypeMermaid}},
+				},
+			},
+			Want: 70,
+		},
+		{
+			Name: "one mermaid, one pirate and skullking",
+			Trick: Trick{
+				Table: []*Play{
+					{Card: Card{Type: CardTypeSkullKing}},
+					{Card: Card{Type: CardTypeSuitYellow, Value: 13}},
+					{Card: Card{Type: CardTypeSuitYellow, Value: 14}},
+					{Card: Card{Type: CardTypeMermaid}},
+					{Card: Card{Type: CardTypePirate}},
+				},
+			},
+			Want: 50,
+		},
+	}
+
+	for _, tt := range table {
+		t.Run(tt.Name, func(t *testing.T) {
+			got := tt.Trick.Bonus()
+			if !reflect.DeepEqual(got, tt.Want) {
+				t.Errorf("Trick.Bonus() = %v, want %v", got, tt.Want)
+			}
+		})
+	}
+}
