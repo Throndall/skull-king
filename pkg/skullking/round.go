@@ -100,37 +100,17 @@ func (t *Trick) NumberFigure() int {
 	return count
 }
 
-func (t *Trick) FindMermaid() *Player {
+func (t *Trick) Find(ct CardType) *Play {
 	for i := 0; i < len(t.Table); i++ {
-		if t.Table[i].Card.Type == CardTypeMermaid {
-			return t.Table[i].Player
+		if t.Table[i].Card.Type == ct {
+			return t.Table[i]
 		}
 	}
 	//panic("la sirena no ha sido encontrada")
 	return nil
 }
 
-func (t *Trick) FindPirate() *Player {
-	for i := 0; i < len(t.Table); i++ {
-		if t.Table[i].Card.Type == CardTypePirate {
-			return t.Table[i].Player
-		}
-	}
-	//panic("la sirena no ha sido encontrada")
-	return nil
-}
-
-func (t *Trick) FindSkullKing() *Player {
-	for i := 0; i < len(t.Table); i++ {
-		if t.Table[i].Card.Type == CardTypeSkullKing {
-			return t.Table[i].Player
-		}
-	}
-	//panic("la sirena no ha sido encontrada")
-	return nil
-}
-
-func (t *Trick) FindHigestBlack() *Player {
+func (t *Trick) FindHigestBlack() *Play {
 	higest := &Play{}
 	for i := 0; i < len(t.Table); i++ {
 		if t.Table[i].Card.Type != CardTypeSuitBlack {
@@ -140,11 +120,11 @@ func (t *Trick) FindHigestBlack() *Player {
 			higest = t.Table[i]
 		}
 	}
-	return higest.Player
+	return higest
 
 }
 
-func (t *Trick) FindHigestLeading() *Player {
+func (t *Trick) FindHigestLeading() *Play {
 	higest := &Play{}
 
 	for i := 0; i < len(t.Table); i++ {
@@ -156,14 +136,14 @@ func (t *Trick) FindHigestLeading() *Player {
 		}
 
 	}
-	return higest.Player
+	return higest
 
 }
 
-func (t *Trick) FindFigure() *Player {
+func (t *Trick) FindFigure() *Play {
 	for i := 0; i < len(t.Table); i++ {
 		if t.Table[i].Card.IsFigure() {
-			return t.Table[i].Player
+			return t.Table[i]
 		}
 	}
 	//panic("No hemos encontrado la figura")
@@ -186,29 +166,29 @@ func (t *Trick) FindDiferentFigures() int {
 }
 
 // Winner will return the player that wins the current Trick
-func (t *Trick) Winner() *Player {
+func (t *Trick) Winner() *Play {
 	if t.FindDiferentFigures() > 0 {
 		if t.FindDiferentFigures() == 3 {
-			return t.FindMermaid()
+			return t.Find(CardTypeMermaid)
 		}
 		if t.FindDiferentFigures() == 1 {
 			return t.FindFigure()
 		}
 		if t.FindDiferentFigures() == 2 {
 			if t.ContainsSkullKing() && !t.ContainsMermaid() {
-				return t.FindSkullKing()
+				return t.Find(CardTypeSkullKing)
 			}
 			if t.ContainsSkullKing() && t.ContainsMermaid() {
-				return t.FindMermaid()
+				return t.Find(CardTypeMermaid)
 			}
-			return t.FindPirate()
+			return t.Find(CardTypePirate)
 		}
 	}
 	if t.ContainsBlack() {
 		return t.FindHigestBlack()
 	}
 	if t.ContainsAllEscape() {
-		return t.Table[0].Player
+		return t.Table[0]
 	}
 	return t.FindHigestLeading()
 }

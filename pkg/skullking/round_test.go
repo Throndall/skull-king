@@ -9,7 +9,8 @@ type TableTestWinner struct {
 	Name  string
 	Trick Trick
 
-	Want *Player
+	WantPlayer *Player
+	WantCard   Card
 }
 
 func TestTrick_Winner(t *testing.T) {
@@ -31,7 +32,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[3], Card: Card{Type: CardTypeSuitYellow, Value: 4}},
 				},
 			},
-			Want: players[3],
+			WantPlayer: players[3],
 		},
 		{
 			Name: "Different suit looses",
@@ -43,7 +44,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[3], Card: Card{Type: CardTypeSuitGreen, Value: 14}},
 				},
 			},
-			Want: players[2],
+			WantPlayer: players[2],
 		},
 		{
 			Name: "Triumph wins against suit",
@@ -55,7 +56,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 1}},
 				},
 			},
-			Want: players[3],
+			WantPlayer: players[3],
 		},
 		{
 			Name: "Highest triumph wins",
@@ -67,7 +68,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 10}},
 				},
 			},
-			Want: players[1],
+			WantPlayer: players[1],
 		},
 		{
 			Name: "Pirate wins",
@@ -79,7 +80,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 10}},
 				},
 			},
-			Want: players[2],
+			WantPlayer: players[2],
 		},
 		{
 			Name: "Second pirate looses",
@@ -91,7 +92,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 10}},
 				},
 			},
-			Want: players[1],
+			WantPlayer: players[1],
 		},
 		{
 			Name: "Escape looses",
@@ -103,7 +104,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[3], Card: Card{Type: CardTypeSuitGreen, Value: 14}},
 				},
 			},
-			Want: players[2],
+			WantPlayer: players[2],
 		},
 		{
 			Name: "Escape everywhere",
@@ -115,7 +116,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[3], Card: Card{Type: CardTypeEscape}},
 				},
 			},
-			Want: players[0],
+			WantPlayer: players[0],
 		},
 		{
 			Name: "Escape looses black",
@@ -127,7 +128,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 14}},
 				},
 			},
-			Want: players[3],
+			WantPlayer: players[3],
 		},
 		{
 			Name: "Skull win",
@@ -139,7 +140,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[3], Card: Card{Type: CardTypeSuitGreen, Value: 14}},
 				},
 			},
-			Want: players[2],
+			WantPlayer: players[2],
 		},
 		{
 			Name: "Skull win black",
@@ -151,7 +152,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 14}},
 				},
 			},
-			Want: players[2],
+			WantPlayer: players[2],
 		},
 		{
 			Name: "Skull win pirate",
@@ -163,7 +164,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 14}},
 				},
 			},
-			Want: players[2],
+			WantPlayer: players[2],
 		},
 		{
 			Name: "pirate loose Skull",
@@ -175,7 +176,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 14}},
 				},
 			},
-			Want: players[0],
+			WantPlayer: players[0],
 		},
 		{
 			Name: "Mermaid win Skull",
@@ -187,7 +188,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 14}},
 				},
 			},
-			Want: players[2],
+			WantPlayer: players[2],
 		},
 		{
 			Name: "Skull lose Mermaid",
@@ -199,7 +200,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 14}},
 				},
 			},
-			Want: players[0],
+			WantPlayer: players[0],
 		},
 		{
 			Name: "pirate win mermaid",
@@ -211,7 +212,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 14}},
 				},
 			},
-			Want: players[2],
+			WantPlayer: players[2],
 		},
 		{
 			Name: "only pirates",
@@ -223,7 +224,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[3], Card: Card{Type: CardTypePirate}},
 				},
 			},
-			Want: players[0],
+			WantPlayer: players[0],
 		},
 		{
 			Name: "only mermaid",
@@ -234,7 +235,7 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[2], Card: Card{Type: CardTypeSuitPurple, Value: 3}},
 				},
 			},
-			Want: players[0],
+			WantPlayer: players[0],
 		},
 		{
 			Name: "one each type",
@@ -245,14 +246,14 @@ func TestTrick_Winner(t *testing.T) {
 					{Player: players[2], Card: Card{Type: CardTypeSkullKing}},
 				},
 			},
-			Want: players[0],
+			WantPlayer: players[0],
 		},
 	}
 	for _, tt := range table {
 		t.Run(tt.Name, func(t *testing.T) {
 			got := tt.Trick.Winner()
-			if !reflect.DeepEqual(got, tt.Want) {
-				t.Errorf("Trick.Winner() = %v, want %v", got, tt.Want)
+			if !reflect.DeepEqual(got.Player, tt.WantPlayer) {
+				t.Errorf("Trick.Winner() = %#v, want %#v", got.Player, tt.WantPlayer)
 			}
 		})
 	}
