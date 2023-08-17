@@ -266,7 +266,7 @@ type TableTestLeading struct {
 	want  CardType
 }
 
-func TestLeading(t *testing.T) {
+func TestTrick_Leading(t *testing.T) {
 	table := []TableTestLeading{
 		{
 			name: "single suit",
@@ -403,7 +403,7 @@ func TestTrick_Bonus_Points(t *testing.T) {
 			Want: 20,
 		},
 		{
-			Name: "with low Back",
+			Name: "with low Black",
 			Trick: Trick{
 				Table: []*Play{
 					{Card: Card{Type: CardTypeSuitYellow, Value: 14}},
