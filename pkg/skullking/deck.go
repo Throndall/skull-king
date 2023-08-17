@@ -3,7 +3,8 @@ package skullking
 import "math/rand"
 
 type Deck struct {
-	Cards []Card
+	Cards      []Card
+	RandSource *rand.Rand
 }
 
 type Card struct {
@@ -129,9 +130,10 @@ var (
 	}
 )
 
-func NewDeck() Deck {
+func NewDeck(seed int64) Deck {
 	return Deck{
-		Cards: make([]Card, 0),
+		Cards:      make([]Card, 0),
+		RandSource: rand.New(rand.NewSource(seed)),
 	}
 }
 
@@ -152,8 +154,8 @@ func (d *Deck) Shufle() {
 	size := len(d.Cards)
 
 	for i := 0; i < 7322; i++ {
-		n1 := rand.Intn(size)
-		n2 := rand.Intn(size)
+		n1 := d.RandSource.Intn(size)
+		n2 := d.RandSource.Intn(size)
 		cardtem := d.Cards[n1]
 		cardtem2 := d.Cards[n2]
 
