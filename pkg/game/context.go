@@ -1,8 +1,6 @@
 package game
 
 import (
-	"bytes"
-	"encoding/gob"
 	"fmt"
 )
 
@@ -45,17 +43,12 @@ func (context *Context) Pop() Command {
 // State Creates a deep copy of the game State.
 // This prevents external users from modifying it
 func (context *Context) State() State {
-	// The problem is that our data contains slices [] that are stored
-	// by reference. If we simply return the State, it will copy
-	// Plain field but slices will be pointing to the same underlying data
-	// This can be handled manually by coping the slices, but it requires
-	// a lot of typing and is error prone.
-	// SO because we don't care a about performance, the following trick works
-	// by serializing and deserializing the data
-	b := &bytes.Buffer{}
-	gob.NewEncoder(b).Encode(context.state)
-
 	state := State{}
-	gob.NewDecoder(b).Decode(&state)
+	for _, c := range context.commands {
+		err := c.Execute(&state)
+		if err != nil {
+			panic(fmt.Errorf("Invalid command found in context, %#v", c))
+		}
+	}
 	return state
 }
