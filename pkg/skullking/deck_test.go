@@ -5,7 +5,7 @@ import (
 )
 
 func TestDeck_Draw(t *testing.T) {
-	deck := NewDeck()
+	deck := NewDeck(1)
 	deck.Put(
 		Card{Number: 1},
 		Card{Number: 2},
@@ -45,7 +45,7 @@ func TestDeck_Draw(t *testing.T) {
 }
 
 func TestDeck_Shufle(t *testing.T) {
-	deck := NewDeck()
+	deck := NewDeck(2)
 	deck.Put(
 		Card{Number: 1},
 		Card{Number: 2},
