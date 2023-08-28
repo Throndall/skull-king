@@ -13,15 +13,31 @@ func TestContext_NewGame(t *testing.T) {
 
 	// When
 	context.Push(commands.AddPlayer{
-		PlayerName: "David",
+		PlayerName: "Erik",
 	})
-
+	context.Push(commands.AddPlayer{
+		PlayerName: "Anna",
+	})
+	context.Push(commands.AddPlayer{
+		PlayerName: "Ignacio",
+	})
+	context.Push(commands.AddPlayer{
+		PlayerName: "Pablo",
+	})
+	context.Push(commands.AddPlayer{
+		PlayerName: "Victor",
+	})
+	context.Push(commands.StartGame{})
 	// Then
 	state := context.State()
-	if state.Players[0].Name != "David" {
-		t.Fatalf("Player in game is %s but wanted David", state.Players[0].Name)
-	}
+	if state.PlayerCount() != 5 {
+		t.Fatalf("number of player incorrect %d,expected 5", state.PlayerCount())
 
-	// context.Commands[0].(commands.AddPlayer)
+	}
+	for i := 0; i < len(state.Players); i++ {
+		if len(state.Players[i].Hand) != 1 {
+			t.Fatalf("player %s ,unexpected number card %d, expected 1 ", state.Players[i].Name, len(state.Players[i].Hand))
+		}
+	}
 
 }

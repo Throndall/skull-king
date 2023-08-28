@@ -144,8 +144,8 @@ func (d *Deck) Put(cards ...Card) {
 func (d *Deck) Draw(n int) []Card {
 
 	//d.Cards[len(d.Cards)-1]
-	hand := d.Cards[len(d.Cards)-2:] //len(d.Cards)
-	deck2 := d.Cards[:len(d.Cards)-2]
+	hand := d.Cards[len(d.Cards)-n:] //len(d.Cards)
+	deck2 := d.Cards[:len(d.Cards)-n]
 	d.Cards = deck2
 	return hand
 }

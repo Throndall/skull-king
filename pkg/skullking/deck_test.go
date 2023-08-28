@@ -43,6 +43,26 @@ func TestDeck_Draw(t *testing.T) {
 	}
 
 }
+func TestDeck_Draw_One(t *testing.T) {
+	deck := NewDeck(1)
+	deck.Put(
+		Card{Number: 1},
+		Card{Number: 2},
+	)
+	hand := deck.Draw(1)
+	if len(hand) != 1 {
+		t.Log("1")
+		t.FailNow()
+	}
+	if hand[0].Number != 2 {
+		t.Log("2")
+		t.FailNow()
+	}
+	if deck.Cards[0].Number != 1 {
+		t.FailNow()
+	}
+
+}
 
 func TestDeck_Shufle(t *testing.T) {
 	deck := NewDeck(2)
