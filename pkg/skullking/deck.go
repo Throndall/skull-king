@@ -30,6 +30,12 @@ func (c Card) IsFigure() bool {
 // calla ya pesado
 type Cards []Card
 
+func (cards *Cards) Remove(c Card) {
+
+	*cards = (*cards)[:]
+
+}
+
 type CardValue int
 type CardType string
 

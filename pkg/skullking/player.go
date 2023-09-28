@@ -8,7 +8,7 @@ type Player struct {
 
 /*func test_player() {
 	p := Player{
-		Name: "Paco",
+		Name: "Sirena",
 		Hand: Cards{Card{Type: CardTypeEscape}, Card{Value: 7, Type: CardTypeSuitParrot}},
 		Scoresheets: []Scoresheet{
 			Scoresheet{

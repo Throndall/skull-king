@@ -19,6 +19,5 @@ func (c Bid) Execute(state *game.State) error {
 		}
 
 	}
-
 	return nil
 }

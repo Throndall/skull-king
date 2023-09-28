@@ -85,3 +85,33 @@ func TestDeck_Shufle(t *testing.T) {
 	}
 
 }
+
+func TestRemoveOneCard(t *testing.T) {
+
+	cards := Cards{Card{Number: 2}}
+
+	cards.Remove(Card{Number: 2})
+
+	if len(cards) != 0 {
+		t.Fatalf("NO HAS QUITADO LA CARTA^^/")
+	}
+}
+
+func TestRemoveThree(t *testing.T) {
+
+	cards := Cards{Card{Number: 2}, Card{Number: 1}, Card{Number: 3}}
+
+	cards.Remove(Card{Number: 2})
+
+	if len(cards) != 2 {
+		t.Fatalf("NO HAS QUITADO LA CARTA^^/")
+	}
+
+	for i := 0; i < len(cards); i++ {
+
+		if cards[i].Number == 2 {
+			t.Fatalf("Esta la carta en el mazo^^/")
+		}
+	}
+
+}
