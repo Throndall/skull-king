@@ -9,251 +9,244 @@ type TableTestWinner struct {
 	Name  string
 	Trick Trick
 
-	WantPlayer *Player
+	WantPlayer string
 	WantCard   Card
 }
 
 func TestTrick_Winner(t *testing.T) {
-	players := []*Player{
-		{Name: "0"},
-		{Name: "1"},
-		{Name: "2"},
-		{Name: "3"},
-	}
-
 	table := []TableTestWinner{
 		{
 			Name: "higher card wins the trick",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypeSuitYellow, Value: 1}},
-					{Player: players[1], Card: Card{Type: CardTypeSuitYellow, Value: 2}},
-					{Player: players[2], Card: Card{Type: CardTypeSuitYellow, Value: 3}},
-					{Player: players[3], Card: Card{Type: CardTypeSuitYellow, Value: 4}},
+					{PlayerName: "0", Card: Card{Type: CardTypeSuitYellow, Value: 1}},
+					{PlayerName: "1", Card: Card{Type: CardTypeSuitYellow, Value: 2}},
+					{PlayerName: "2", Card: Card{Type: CardTypeSuitYellow, Value: 3}},
+					{PlayerName: "3", Card: Card{Type: CardTypeSuitYellow, Value: 4}},
 				},
 			},
-			WantPlayer: players[3],
+			WantPlayer: "3",
 		},
 		{
 			Name: "Different suit looses",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypeSuitYellow, Value: 1}},
-					{Player: players[1], Card: Card{Type: CardTypeSuitYellow, Value: 2}},
-					{Player: players[2], Card: Card{Type: CardTypeSuitYellow, Value: 3}},
-					{Player: players[3], Card: Card{Type: CardTypeSuitGreen, Value: 14}},
+					{PlayerName: "0", Card: Card{Type: CardTypeSuitYellow, Value: 1}},
+					{PlayerName: "1", Card: Card{Type: CardTypeSuitYellow, Value: 2}},
+					{PlayerName: "2", Card: Card{Type: CardTypeSuitYellow, Value: 3}},
+					{PlayerName: "3", Card: Card{Type: CardTypeSuitGreen, Value: 14}},
 				},
 			},
-			WantPlayer: players[2],
+			WantPlayer: "2",
 		},
 		{
 			Name: "Triumph wins against suit",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypeSuitYellow, Value: 1}},
-					{Player: players[1], Card: Card{Type: CardTypeSuitYellow, Value: 2}},
-					{Player: players[2], Card: Card{Type: CardTypeSuitYellow, Value: 3}},
-					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 1}},
+					{PlayerName: "0", Card: Card{Type: CardTypeSuitYellow, Value: 1}},
+					{PlayerName: "1", Card: Card{Type: CardTypeSuitYellow, Value: 2}},
+					{PlayerName: "2", Card: Card{Type: CardTypeSuitYellow, Value: 3}},
+					{PlayerName: "3", Card: Card{Type: CardTypeSuitBlack, Value: 1}},
 				},
 			},
-			WantPlayer: players[3],
+			WantPlayer: "3",
 		},
 		{
 			Name: "Highest triumph wins",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypeSuitBlack, Value: 1}},
-					{Player: players[1], Card: Card{Type: CardTypeSuitBlack, Value: 12}},
-					{Player: players[2], Card: Card{Type: CardTypeSuitYellow, Value: 13}},
-					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 10}},
+					{PlayerName: "0", Card: Card{Type: CardTypeSuitBlack, Value: 1}},
+					{PlayerName: "1", Card: Card{Type: CardTypeSuitBlack, Value: 12}},
+					{PlayerName: "2", Card: Card{Type: CardTypeSuitYellow, Value: 13}},
+					{PlayerName: "3", Card: Card{Type: CardTypeSuitBlack, Value: 10}},
 				},
 			},
-			WantPlayer: players[1],
+			WantPlayer: "1",
 		},
 		{
 			Name: "Pirate wins",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypeSuitYellow, Value: 1}},
-					{Player: players[1], Card: Card{Type: CardTypeSuitYellow, Value: 12}},
-					{Player: players[2], Card: Card{Type: CardTypePirate}},
-					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 10}},
+					{PlayerName: "0", Card: Card{Type: CardTypeSuitYellow, Value: 1}},
+					{PlayerName: "1", Card: Card{Type: CardTypeSuitYellow, Value: 12}},
+					{PlayerName: "2", Card: Card{Type: CardTypePirate}},
+					{PlayerName: "3", Card: Card{Type: CardTypeSuitBlack, Value: 10}},
 				},
 			},
-			WantPlayer: players[2],
+			WantPlayer: "2",
 		},
 		{
 			Name: "Second pirate looses",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypeSuitYellow, Value: 1}},
-					{Player: players[1], Card: Card{Type: CardTypePirate}},
-					{Player: players[2], Card: Card{Type: CardTypePirate}},
-					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 10}},
+					{PlayerName: "0", Card: Card{Type: CardTypeSuitYellow, Value: 1}},
+					{PlayerName: "1", Card: Card{Type: CardTypePirate}},
+					{PlayerName: "2", Card: Card{Type: CardTypePirate}},
+					{PlayerName: "3", Card: Card{Type: CardTypeSuitBlack, Value: 10}},
 				},
 			},
-			WantPlayer: players[1],
+			WantPlayer: "1",
 		},
 		{
 			Name: "Escape looses",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypeEscape}},
-					{Player: players[1], Card: Card{Type: CardTypeSuitYellow, Value: 2}},
-					{Player: players[2], Card: Card{Type: CardTypeSuitYellow, Value: 3}},
-					{Player: players[3], Card: Card{Type: CardTypeSuitGreen, Value: 14}},
+					{PlayerName: "0", Card: Card{Type: CardTypeEscape}},
+					{PlayerName: "1", Card: Card{Type: CardTypeSuitYellow, Value: 2}},
+					{PlayerName: "2", Card: Card{Type: CardTypeSuitYellow, Value: 3}},
+					{PlayerName: "3", Card: Card{Type: CardTypeSuitGreen, Value: 14}},
 				},
 			},
-			WantPlayer: players[2],
+			WantPlayer: "2",
 		},
 		{
 			Name: "Escape everywhere",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypeEscape}},
-					{Player: players[1], Card: Card{Type: CardTypeEscape}},
-					{Player: players[2], Card: Card{Type: CardTypeEscape}},
-					{Player: players[3], Card: Card{Type: CardTypeEscape}},
+					{PlayerName: "0", Card: Card{Type: CardTypeEscape}},
+					{PlayerName: "1", Card: Card{Type: CardTypeEscape}},
+					{PlayerName: "2", Card: Card{Type: CardTypeEscape}},
+					{PlayerName: "3", Card: Card{Type: CardTypeEscape}},
 				},
 			},
-			WantPlayer: players[0],
+			WantPlayer: "0",
 		},
 		{
 			Name: "Escape looses black",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypeEscape}},
-					{Player: players[1], Card: Card{Type: CardTypeSuitYellow, Value: 2}},
-					{Player: players[2], Card: Card{Type: CardTypeSuitYellow, Value: 3}},
-					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 14}},
+					{PlayerName: "0", Card: Card{Type: CardTypeEscape}},
+					{PlayerName: "1", Card: Card{Type: CardTypeSuitYellow, Value: 2}},
+					{PlayerName: "2", Card: Card{Type: CardTypeSuitYellow, Value: 3}},
+					{PlayerName: "3", Card: Card{Type: CardTypeSuitBlack, Value: 14}},
 				},
 			},
-			WantPlayer: players[3],
+			WantPlayer: "3",
 		},
 		{
 			Name: "Skull win",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypeEscape}},
-					{Player: players[1], Card: Card{Type: CardTypeSuitYellow, Value: 2}},
-					{Player: players[2], Card: Card{Type: CardTypeSkullKing}},
-					{Player: players[3], Card: Card{Type: CardTypeSuitGreen, Value: 14}},
+					{PlayerName: "0", Card: Card{Type: CardTypeEscape}},
+					{PlayerName: "1", Card: Card{Type: CardTypeSuitYellow, Value: 2}},
+					{PlayerName: "2", Card: Card{Type: CardTypeSkullKing}},
+					{PlayerName: "3", Card: Card{Type: CardTypeSuitGreen, Value: 14}},
 				},
 			},
-			WantPlayer: players[2],
+			WantPlayer: "2",
 		},
 		{
 			Name: "Skull win black",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypeEscape}},
-					{Player: players[1], Card: Card{Type: CardTypeSuitYellow, Value: 2}},
-					{Player: players[2], Card: Card{Type: CardTypeSkullKing}},
-					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 14}},
+					{PlayerName: "0", Card: Card{Type: CardTypeEscape}},
+					{PlayerName: "1", Card: Card{Type: CardTypeSuitYellow, Value: 2}},
+					{PlayerName: "2", Card: Card{Type: CardTypeSkullKing}},
+					{PlayerName: "3", Card: Card{Type: CardTypeSuitBlack, Value: 14}},
 				},
 			},
-			WantPlayer: players[2],
+			WantPlayer: "2",
 		},
 		{
 			Name: "Skull win pirate",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypePirate}},
-					{Player: players[1], Card: Card{Type: CardTypeSuitYellow, Value: 2}},
-					{Player: players[2], Card: Card{Type: CardTypeSkullKing}},
-					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 14}},
+					{PlayerName: "0", Card: Card{Type: CardTypePirate}},
+					{PlayerName: "1", Card: Card{Type: CardTypeSuitYellow, Value: 2}},
+					{PlayerName: "2", Card: Card{Type: CardTypeSkullKing}},
+					{PlayerName: "3", Card: Card{Type: CardTypeSuitBlack, Value: 14}},
 				},
 			},
-			WantPlayer: players[2],
+			WantPlayer: "2",
 		},
 		{
 			Name: "pirate loose Skull",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypeSkullKing}},
-					{Player: players[1], Card: Card{Type: CardTypeSuitYellow, Value: 2}},
-					{Player: players[2], Card: Card{Type: CardTypePirate}},
-					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 14}},
+					{PlayerName: "0", Card: Card{Type: CardTypeSkullKing}},
+					{PlayerName: "1", Card: Card{Type: CardTypeSuitYellow, Value: 2}},
+					{PlayerName: "2", Card: Card{Type: CardTypePirate}},
+					{PlayerName: "3", Card: Card{Type: CardTypeSuitBlack, Value: 14}},
 				},
 			},
-			WantPlayer: players[0],
+			WantPlayer: "0",
 		},
 		{
 			Name: "Mermaid win Skull",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypeSkullKing}},
-					{Player: players[1], Card: Card{Type: CardTypeSuitYellow, Value: 2}},
-					{Player: players[2], Card: Card{Type: CardTypeMermaid}},
-					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 14}},
+					{PlayerName: "0", Card: Card{Type: CardTypeSkullKing}},
+					{PlayerName: "1", Card: Card{Type: CardTypeSuitYellow, Value: 2}},
+					{PlayerName: "2", Card: Card{Type: CardTypeMermaid}},
+					{PlayerName: "3", Card: Card{Type: CardTypeSuitBlack, Value: 14}},
 				},
 			},
-			WantPlayer: players[2],
+			WantPlayer: "2",
 		},
 		{
 			Name: "Skull lose Mermaid",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypeMermaid}},
-					{Player: players[1], Card: Card{Type: CardTypeSuitYellow, Value: 2}},
-					{Player: players[2], Card: Card{Type: CardTypeSkullKing}},
-					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 14}},
+					{PlayerName: "0", Card: Card{Type: CardTypeMermaid}},
+					{PlayerName: "1", Card: Card{Type: CardTypeSuitYellow, Value: 2}},
+					{PlayerName: "2", Card: Card{Type: CardTypeSkullKing}},
+					{PlayerName: "3", Card: Card{Type: CardTypeSuitBlack, Value: 14}},
 				},
 			},
-			WantPlayer: players[0],
+			WantPlayer: "0",
 		},
 		{
 			Name: "pirate win mermaid",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypeMermaid}},
-					{Player: players[1], Card: Card{Type: CardTypeSuitYellow, Value: 2}},
-					{Player: players[2], Card: Card{Type: CardTypePirate}},
-					{Player: players[3], Card: Card{Type: CardTypeSuitBlack, Value: 14}},
+					{PlayerName: "0", Card: Card{Type: CardTypeMermaid}},
+					{PlayerName: "1", Card: Card{Type: CardTypeSuitYellow, Value: 2}},
+					{PlayerName: "2", Card: Card{Type: CardTypePirate}},
+					{PlayerName: "3", Card: Card{Type: CardTypeSuitBlack, Value: 14}},
 				},
 			},
-			WantPlayer: players[2],
+			WantPlayer: "2",
 		},
 		{
 			Name: "only pirates",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypePirate}},
-					{Player: players[1], Card: Card{Type: CardTypePirate}},
-					{Player: players[2], Card: Card{Type: CardTypePirate}},
-					{Player: players[3], Card: Card{Type: CardTypePirate}},
+					{PlayerName: "0", Card: Card{Type: CardTypePirate}},
+					{PlayerName: "1", Card: Card{Type: CardTypePirate}},
+					{PlayerName: "2", Card: Card{Type: CardTypePirate}},
+					{PlayerName: "3", Card: Card{Type: CardTypePirate}},
 				},
 			},
-			WantPlayer: players[0],
+			WantPlayer: "0",
 		},
 		{
 			Name: "only mermaid",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypeMermaid}},
-					{Player: players[1], Card: Card{Type: CardTypeMermaid}},
-					{Player: players[2], Card: Card{Type: CardTypeSuitPurple, Value: 3}},
+					{PlayerName: "0", Card: Card{Type: CardTypeMermaid}},
+					{PlayerName: "1", Card: Card{Type: CardTypeMermaid}},
+					{PlayerName: "2", Card: Card{Type: CardTypeSuitPurple, Value: 3}},
 				},
 			},
-			WantPlayer: players[0],
+			WantPlayer: "0",
 		},
 		{
 			Name: "one each type",
 			Trick: Trick{
 				Table: []*Play{
-					{Player: players[0], Card: Card{Type: CardTypeMermaid}},
-					{Player: players[1], Card: Card{Type: CardTypePirate}},
-					{Player: players[2], Card: Card{Type: CardTypeSkullKing}},
+					{PlayerName: "0", Card: Card{Type: CardTypeMermaid}},
+					{PlayerName: "1", Card: Card{Type: CardTypePirate}},
+					{PlayerName: "2", Card: Card{Type: CardTypeSkullKing}},
 				},
 			},
-			WantPlayer: players[0],
+			WantPlayer: "0",
 		},
 	}
 	for _, tt := range table {
 		t.Run(tt.Name, func(t *testing.T) {
 			got := tt.Trick.Winner()
-			if !reflect.DeepEqual(got.Player, tt.WantPlayer) {
-				t.Errorf("Trick.Winner() = %#v, want %#v", got.Player, tt.WantPlayer)
+			if !reflect.DeepEqual(got.PlayerName, tt.WantPlayer) {
+				t.Errorf("Trick.Winner() = %#v, want %#v", got.PlayerName, tt.WantPlayer)
 			}
 		})
 	}

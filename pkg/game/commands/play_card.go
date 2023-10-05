@@ -19,8 +19,8 @@ func (c PlayCard) Execute(state *game.State) error {
 
 		if state.Players[i].Name == c.PlayerName {
 			trick.Table = append(trick.Table, &skullking.Play{
-				Player: &state.Players[i],
-				Card:   c.Card,
+				PlayerName: state.Players[i].Name,
+				Card:       c.Card,
 			})
 
 			state.Players[i].Hand.Remove(c.Card)

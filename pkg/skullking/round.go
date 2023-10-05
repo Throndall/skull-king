@@ -18,8 +18,8 @@ type Round struct {
 
 // Play is the Card played by a Player during a Trick
 type Play struct {
-	Player *Player
-	Card   Card
+	PlayerName string
+	Card       Card
 }
 
 // NewTrick creates a new empty Trick struct that can be used to Play cards by the Players
