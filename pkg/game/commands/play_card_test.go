@@ -5,6 +5,7 @@ import (
 
 	"github.com/metalblueberry/skull-king/pkg/game"
 	"github.com/metalblueberry/skull-king/pkg/skullking"
+	"github.com/stretchr/testify/require"
 )
 
 func TestPlayCard(t *testing.T) {
@@ -42,12 +43,8 @@ func TestPlayCard(t *testing.T) {
 
 	playCard.Execute(initialState)
 
-	if len(initialState.Players[2].Hand) != 0 {
-		t.Fatalf("Player %s not playing card", initialState.Players[2].Name)
-	}
+	require.Contains(t, initialState.Rounds[0].Tricks[0].Table, skullking.Card{Number: 25, Type: skullking.CardTypeSkullKing}, "not playing card number 25")
 
-	if initialState.Rounds[0].Tricks[0].Table[0].Card.Number == 25 {
-		t.Fatalf(" %s not playing card number 25", initialState.Players[2].Name)
-	}
+	require.Emptyf(t, initialState.Players[2].Hand, "Player %s not playing card", initialState.Players[2].Name)
 
 }

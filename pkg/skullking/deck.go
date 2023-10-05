@@ -31,9 +31,13 @@ func (c Card) IsFigure() bool {
 type Cards []Card
 
 func (cards *Cards) Remove(c Card) {
-
-	*cards = (*cards)[:]
-
+	newHand := make(Cards, 0, len(*cards)-1)
+	for _, card := range *cards {
+		if c.Number != card.Number {
+			newHand = append(newHand, card)
+		}
+	}
+	*cards = newHand
 }
 
 type CardValue int

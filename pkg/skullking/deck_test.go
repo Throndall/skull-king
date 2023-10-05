@@ -2,6 +2,8 @@ package skullking
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestDeck_Draw(t *testing.T) {
@@ -92,9 +94,7 @@ func TestRemoveOneCard(t *testing.T) {
 
 	cards.Remove(Card{Number: 2})
 
-	if len(cards) != 0 {
-		t.Fatalf("NO HAS QUITADO LA CARTA^^/")
-	}
+	require.Empty(t, cards, "NO HAS QUITADO LA CARTA^^/")
 }
 
 func TestRemoveThree(t *testing.T) {
@@ -103,15 +103,8 @@ func TestRemoveThree(t *testing.T) {
 
 	cards.Remove(Card{Number: 2})
 
-	if len(cards) != 2 {
-		t.Fatalf("NO HAS QUITADO LA CARTA^^/")
-	}
+	require.Len(t, cards, 2, "NO HAS QUITADO LA CARTA^^/")
 
-	for i := 0; i < len(cards); i++ {
-
-		if cards[i].Number == 2 {
-			t.Fatalf("Esta la carta en el mazo^^/")
-		}
-	}
+	require.NotContains(t, cards, Card{Number: 2})
 
 }

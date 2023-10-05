@@ -12,8 +12,8 @@ type PlayCard struct {
 
 func (c PlayCard) Execute(state *game.State) error {
 
-	ronda := state.Rounds[len(state.Rounds)-1]
-	trick := ronda.Tricks[len(ronda.Tricks)-1]
+	round := state.Rounds[len(state.Rounds)-1]
+	trick := round.Tricks[len(round.Tricks)-1]
 
 	for i := 0; i < state.PlayerCount(); i++ {
 
