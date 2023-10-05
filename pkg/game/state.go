@@ -6,7 +6,7 @@ import "github.com/metalblueberry/skull-king/pkg/skullking"
 type State struct {
 	Players []skullking.Player
 	Deck    skullking.Deck
-	Rounds  []skullking.Round
+	Rounds  []*skullking.Round
 }
 
 // PlayerCount returns the number of players in the game

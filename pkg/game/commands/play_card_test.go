@@ -15,9 +15,9 @@ func TestPlayCard(t *testing.T) {
 	}
 
 	initialState := &game.State{
-		Rounds: []skullking.Round{
-			skullking.Round{
-				Tricks: []skullking.Trick{skullking.Trick{
+		Rounds: []*skullking.Round{
+			{
+				Tricks: []*skullking.Trick{{
 					Table: []*skullking.Play{},
 				}},
 			}},
@@ -43,7 +43,11 @@ func TestPlayCard(t *testing.T) {
 
 	playCard.Execute(initialState)
 
-	require.Contains(t, initialState.Rounds[0].Tricks[0].Table, skullking.Card{Number: 25, Type: skullking.CardTypeSkullKing}, "not playing card number 25")
+	require.Len(t, initialState.Rounds[0].Tricks[0].Table, 1)
+	for _, play := range initialState.Rounds[0].Tricks[0].Table {
+		require.Equal(t, play.Card.Number, 25)
+		require.Equal(t, play.Player.Name, "Ortega el constructor")
+	}
 
 	require.Emptyf(t, initialState.Players[2].Hand, "Player %s not playing card", initialState.Players[2].Name)
 

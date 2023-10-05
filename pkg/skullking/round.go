@@ -13,7 +13,7 @@ type Trick struct {
 // dealt. A round begins by dealing cards and ends when all
 // cards dealt have been played.
 type Round struct {
-	Tricks []Trick
+	Tricks []*Trick
 }
 
 // Play is the Card played by a Player during a Trick
