@@ -14,16 +14,16 @@ func TestBid(t *testing.T) {
 	}
 
 	initialState := &game.State{
-		Players: []skullking.Player{
-			skullking.Player{
+		Players: []*skullking.Player{
+			&skullking.Player{
 				Name:        "Tximo",
 				Scoresheets: []skullking.Scoresheet{},
 			},
-			skullking.Player{
+			&skullking.Player{
 				Name:        "Anita",
 				Scoresheets: []skullking.Scoresheet{},
 			},
-			skullking.Player{
+			&skullking.Player{
 				Name:        "Orte",
 				Scoresheets: []skullking.Scoresheet{},
 			},
@@ -50,7 +50,7 @@ func TestBidRoundTwo(t *testing.T) {
 	}
 
 	initialState := &game.State{
-		Players: []skullking.Player{
+		Players: []*skullking.Player{
 			{
 				Name: "Tximo",
 				Scoresheets: []skullking.Scoresheet{

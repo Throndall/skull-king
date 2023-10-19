@@ -1,6 +1,8 @@
 package commands
 
 import (
+	"fmt"
+
 	"github.com/metalblueberry/skull-king/pkg/game"
 	"github.com/metalblueberry/skull-king/pkg/skullking"
 )
@@ -12,22 +14,21 @@ type PlayCard struct {
 
 func (c PlayCard) Execute(state *game.State) error {
 
-	round := state.Rounds[len(state.Rounds)-1]
-	trick := round.Tricks[len(round.Tricks)-1]
-
-	for i := 0; i < state.PlayerCount(); i++ {
-
-		if state.Players[i].Name == c.PlayerName {
-			trick.Table = append(trick.Table, &skullking.Play{
-				PlayerName: state.Players[i].Name,
-				Card:       c.Card,
-			})
-
-			state.Players[i].Hand.Remove(c.Card)
-
-			//state.Players[i].Hand
-		}
+	player := state.GetPlayer(c.PlayerName)
+	if player == nil {
+		return fmt.Errorf("player not found")
 	}
+	
+	if !player.Hand.Contains(c.Card) {
+		return fmt.Errorf("the card is not in the hand")
+	}
+
+	player.Hand.Remove(c.Card)
+
+	state.CurrentRound().CurrentTrick().Play(skullking.Play{
+		PlayerName: c.PlayerName,
+		Card:       c.Card,
+	})
 
 	return nil
 }

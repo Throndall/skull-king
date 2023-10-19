@@ -30,9 +30,8 @@ func NewTrick(numberOfPlayers int) *Trick {
 }
 
 // Play adds the Play action for the next player to the Trick
-// It will return an error if the card cannot be played
-func (t *Trick) Play(p Play) error {
-	panic("Not Implemented Yet")
+func (t *Trick) Play(p Play) {
+	t.Table = append(t.Table, &p)
 }
 
 func (t *Trick) ContainsFigure() bool {
@@ -251,4 +250,10 @@ func (t *Trick) Leading() CardType {
 	}
 
 	return t.Table[position].Card.Type
+}
+
+
+
+func (r *Round) CurrentTrick() *Trick {
+	return r.Tricks[len(r.Tricks)-1]
 }

@@ -10,7 +10,7 @@ type AddPlayer struct {
 }
 
 func (c AddPlayer) Execute(state *game.State) error {
-	state.Players = append(state.Players, skullking.Player{
+	state.Players = append(state.Players, &skullking.Player{
 		Name:        c.PlayerName,
 		Scoresheets: []skullking.Scoresheet{},
 	})

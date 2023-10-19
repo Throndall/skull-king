@@ -6,6 +6,8 @@ type Player struct {
 	Scoresheets []Scoresheet
 }
 
+
+
 /*func test_player() {
 	p := Player{
 		Name: "Sirena",

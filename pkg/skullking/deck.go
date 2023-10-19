@@ -40,6 +40,15 @@ func (cards *Cards) Remove(c Card) {
 	*cards = newHand
 }
 
+func (cards *Cards) Contains(c Card) bool{
+	for _, card := range *cards {
+		if c.Number == card.Number {
+			return true
+		}
+	}
+	return false
+}
+
 type CardValue int
 type CardType string
 
